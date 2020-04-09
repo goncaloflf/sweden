@@ -19,6 +19,15 @@ app.get("/deck", (req, res, next) => {
   res.json(decks);
 });
 
-app.get("/deck/new", async (req, res, next) => {
-  DecksApi.getNewDeck().then((response) => res.json(response));
+app.post("/deck", async (req, res, next) => {
+  DecksApi.getNewDeck().then((response) => {
+    decks.push(response);
+    console.log(decks);
+    return res.json(response);
+  });
+});
+
+app.get("/deck/:deck_id/deal", (req, res, next) => {
+  const selected = decks.filter((deck) => deck.deck_id === req.params.deck_id);
+  res.json(selected);
 });
